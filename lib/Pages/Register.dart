@@ -13,7 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 45),
+        padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 15),
         children: [
           const Text(
             'Registro:',
@@ -24,6 +24,31 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           const SizedBox(
             height: 35,
+          ),
+          const TextField(
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              floatingLabelAlignment: FloatingLabelAlignment.center,
+              label: Text(
+                'Nome completo',
+                style: TextStyle(
+                    color: Colors.black45,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.purple)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.purple)),
+              suffixIcon: Icon(
+                Icons.person_2_outlined,
+                color: Colors.purple,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           const TextField(
             keyboardType: TextInputType.emailAddress,
@@ -42,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.purple)),
               suffixIcon: Icon(
-                Icons.person_2_outlined,
+                Icons.mark_email_unread_outlined,
                 color: Colors.purple,
               ),
             ),
@@ -116,27 +141,118 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const TextField(
-            keyboardType: TextInputType.datetime,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              floatingLabelAlignment: FloatingLabelAlignment.center,
-              label: Text(
-                'Data de nascimento',
-                style: TextStyle(
-                    color: Colors.black45,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
+          const Row(
+            children: [
+               Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.datetime,
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
+                      label: Text(
+                        'Data de nascimento',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple)),
+                      suffixIcon: Icon(
+                        Icons.date_range_outlined,
+                        color: Colors.purple,
+                      ),
+                    ),
+                  ),
               ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              suffixIcon: Icon(
-                Icons.date_range_outlined,
-                color: Colors.purple,
+               SizedBox(
+                width: 10,
               ),
-            ),
+               Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
+                      label: Text(
+                        'CPF',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple)),
+                      suffixIcon: Icon(
+                        Icons.fact_check_outlined,
+                        color: Colors.purple,
+                      ),
+                    ),
+                  ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    label: Text(
+                      'Rua',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    suffixIcon: Icon(
+                      Icons.location_on_outlined,
+                      color: Colors.purple,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    label: Text(
+                      'Número',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    suffixIcon: Icon(
+                      Icons.home,
+                      color: Colors.purple,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 20,
@@ -147,7 +263,7 @@ class _RegisterPageState extends State<RegisterPage> {
               floatingLabelBehavior: FloatingLabelBehavior.always,
               floatingLabelAlignment: FloatingLabelAlignment.center,
               label: Text(
-                'CPF',
+                'Bairro',
                 style: TextStyle(
                     color: Colors.black45,
                     fontWeight: FontWeight.bold,
@@ -158,32 +274,7 @@ class _RegisterPageState extends State<RegisterPage> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.purple)),
               suffixIcon: Icon(
-                Icons.fact_check_outlined,
-                color: Colors.purple,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const TextField(
-            keyboardType: TextInputType.streetAddress,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              floatingLabelAlignment: FloatingLabelAlignment.center,
-              label: Text(
-                'Endereço',
-                style: TextStyle(
-                    color: Colors.black45,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              suffixIcon: Icon(
-                Icons.location_on_outlined,
+                Icons.location_city_rounded,
                 color: Colors.purple,
               ),
             ),
@@ -202,9 +293,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                 backgroundColor: MaterialStateProperty.all(Colors.purple)),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'Criar conta',
                   style: TextStyle(fontSize: 20),
