@@ -13,7 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 90, horizontal: 15),
         children: [
           const Text(
             'Registro:',
