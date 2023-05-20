@@ -11,6 +11,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool showPass = true;
+  bool emailFocus = false;
+  bool passFocus = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +33,6 @@ class _LoginPageState extends State<LoginPage> {
                 "OnBuy",
                 style: TextStyle(
                   fontFamily: "Poppins",
-                  decoration: TextDecoration.none,
-                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),
@@ -43,11 +43,9 @@ class _LoginPageState extends State<LoginPage> {
               const Text(
                 "Auction",
                 style: TextStyle(
-                    fontFamily: "Poppins",
-                    decoration: TextDecoration.none,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30),
+                  fontFamily: "Poppins",
+                  fontSize: 30,
+                ),
               ),
             ],
           ),
@@ -71,39 +69,51 @@ class _LoginPageState extends State<LoginPage> {
             height: 95,
           ),
           const TextField(
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    borderSide: BorderSide(color: Colors.purple)),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(40))),
                 label: Text(
                   'Digite seu E-mail',
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.black45,
                       fontWeight: FontWeight.bold,
                       fontSize: 16.5),
                 ),
-                hintText: 'E-mail'),
+                hintText: 'E-mail',
+                suffixIconColor: Colors.purple,
+                suffixIcon: Icon(Icons.person_2_outlined)),
           ),
           const SizedBox(
             height: 25,
           ),
           TextField(
+            keyboardType: TextInputType.text,
             obscureText: showPass,
             decoration: InputDecoration(
+                focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    borderSide: BorderSide(color: Colors.purple)),
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
                       showPass = !showPass;
                     });
                   },
-                  icon:
-                      Icon(showPass ? Icons.visibility_off : Icons.visibility),
+                  icon: Icon(
+                    showPass ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.purple,
+                  ),
                 ),
                 border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(40))),
                 label: const Text(
                   'Digite sua senha',
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.black45,
                       fontWeight: FontWeight.bold,
                       fontSize: 16.5),
                 ),
@@ -162,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const RegisterPage()));
             },
             style: ButtonStyle(
@@ -181,7 +191,10 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   width: 5,
                 ),
-                Icon(Icons.person_2_outlined, color: Colors.purple,)
+                Icon(
+                  Icons.person_2_outlined,
+                  color: Colors.purple,
+                )
               ],
             ),
           ),
