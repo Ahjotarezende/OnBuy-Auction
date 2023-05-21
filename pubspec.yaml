@@ -62,6 +62,16 @@ flutter:
   assets:
     - assets/images/OpeningPage.png
     - assets/images/Logo.png
+    - assets/images/Produto1.jpg
+    - assets/images/Produto2.jpg
+    - assets/images/Produto3.jpg
+    - assets/images/Produto4.jpg
+    - assets/images/Produto5.jpg
+    - assets/images/Produto6.jpg
+    - assets/images/Produto7.jpg
+    - assets/images/Produto8.jpg
+    - assets/images/Produto9.jpg
+    - assets/images/Produto10.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
