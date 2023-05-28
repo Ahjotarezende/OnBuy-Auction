@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Home.dart';
 import 'package:on_buy_auction/Pages/Register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

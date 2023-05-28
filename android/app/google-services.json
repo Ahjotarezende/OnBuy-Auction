@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "543236963801",
+    "project_id": "onbuy-auction",
+    "storage_bucket": "onbuy-auction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543236963801:android:57f27c9883b6c038046dc8",
+        "android_client_info": {
+          "package_name": "com.example.on_buy_auction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543236963801-s4p8kqrpl685v5a6uoj1sfn6bip110rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyk6xGWOvbZU3ll-EvVOV5NmwOcu2Ay2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543236963801-s4p8kqrpl685v5a6uoj1sfn6bip110rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
