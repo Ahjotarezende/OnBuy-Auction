@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
 
 class Produto {
   String nome;
