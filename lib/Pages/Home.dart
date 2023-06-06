@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_buy_auction/Pages/Notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
 
 class Produto {
@@ -338,7 +339,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const NotifyPage()));
+                      },
                       icon: const Icon(
                         Icons.notifications_none_rounded,
                         color: Colors.white,
