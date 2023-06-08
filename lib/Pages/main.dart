@@ -1,6 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Login.dart';
 
+//Banco de Dados
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../firebase_options.dart';
+
+Future<void> main() async {
+WidgetsFlutterBinding.ensureInitialized();
+await Firebase.initializeApp(
+options: DefaultFirebaseOptions.currentPlatform,
+);
+runApp(LoginPage());
+}
+
+/*
+void setData(String nome, String valor) {
+var db = FirebaseFirestore. instance;
+print("dados: $nome $valor ");
+
+db
+.collection( "users")
+.add(<String, dynamic>{"nome": nome, "valor": valor}).then(
+(DocumentReference doc) =>
+print( 'DocumentSnapshot added with ID: ${doc.id}'));
+}
+*/
+
+
 class OpeningPage extends StatelessWidget {
   const OpeningPage({super.key});
 
