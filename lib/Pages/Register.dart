@@ -145,8 +145,8 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const Row(
-            children: [
+          Row(
+            children: const [
                Expanded(
                   child: TextField(
                     keyboardType: TextInputType.datetime,
@@ -203,8 +203,8 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const Row(
-            children: [
+          Row(
+            children: const[
               Expanded(
                 child: TextField(
                   keyboardType: TextInputType.text,
@@ -297,9 +297,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.circular(25.0),
                     )),
                 backgroundColor: MaterialStateProperty.all(Colors.purple)),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
                   'Criar conta',
                   style: TextStyle(fontSize: 20),

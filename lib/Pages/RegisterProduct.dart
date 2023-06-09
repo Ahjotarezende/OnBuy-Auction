@@ -202,9 +202,9 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                                 borderRadius: BorderRadius.circular(25.0),
                               )),
                           backgroundColor: MaterialStateProperty.all(Colors.purple)),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
+                        children: const [
                           Text(
                             'Leiloar',
                             style: TextStyle(fontSize: 20),
