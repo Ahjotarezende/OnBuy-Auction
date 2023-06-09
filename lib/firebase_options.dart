@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '543236963801',
     projectId: 'onbuy-auction',
     authDomain: 'onbuy-auction.firebaseapp.com',
+    databaseURL: 'https://onbuy-auction-default-rtdb.firebaseio.com',
     storageBucket: 'onbuy-auction.appspot.com',
     measurementId: 'G-VZ3LCFRLSF',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:543236963801:android:57f27c9883b6c038046dc8',
     messagingSenderId: '543236963801',
     projectId: 'onbuy-auction',
+    databaseURL: 'https://onbuy-auction-default-rtdb.firebaseio.com',
     storageBucket: 'onbuy-auction.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:543236963801:ios:eeadc61f73fd0c1a046dc8',
     messagingSenderId: '543236963801',
     projectId: 'onbuy-auction',
+    databaseURL: 'https://onbuy-auction-default-rtdb.firebaseio.com',
     storageBucket: 'onbuy-auction.appspot.com',
     iosClientId: '543236963801-s0n9hu45t5jj8gclaaqrl49t5t3vfd5h.apps.googleusercontent.com',
     iosBundleId: 'com.example.onBuyAuction',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:543236963801:ios:eeadc61f73fd0c1a046dc8',
     messagingSenderId: '543236963801',
     projectId: 'onbuy-auction',
+    databaseURL: 'https://onbuy-auction-default-rtdb.firebaseio.com',
     storageBucket: 'onbuy-auction.appspot.com',
     iosClientId: '543236963801-s0n9hu45t5jj8gclaaqrl49t5t3vfd5h.apps.googleusercontent.com',
     iosBundleId: 'com.example.onBuyAuction',
