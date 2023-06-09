@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "543236963801",
+    "firebase_url": "https://onbuy-auction-default-rtdb.firebaseio.com",
     "project_id": "onbuy-auction",
     "storage_bucket": "onbuy-auction.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "543236963801-s4p8kqrpl685v5a6uoj1sfn6bip110rc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "543236963801-s0n9hu45t5jj8gclaaqrl49t5t3vfd5h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.onBuyAuction"
+              }
             }
           ]
         }

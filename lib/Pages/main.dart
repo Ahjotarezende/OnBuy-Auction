@@ -8,11 +8,11 @@ import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
 
 Future<void> main() async {
-WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
-options: DefaultFirebaseOptions.currentPlatform,
-);
-runApp(LoginPage());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MaterialApp(home: OpeningPage()));
 }
 
 /*
@@ -72,8 +72,4 @@ class OpeningPage extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(home: OpeningPage()));
 }
