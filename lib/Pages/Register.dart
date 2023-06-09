@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -7,12 +9,25 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-_saveLogin() async{
-  
-}
-
 class _RegisterPageState extends State<RegisterPage> {
+
+  Future _register(context, user) async{
+    final docUser = FirebaseFirestore.instance.collection("usuarios").doc();
+    user["id"] = docUser.id;
+    docUser.set(user);
+    Navigator.of(context).pop();
+  }
+
   bool showRegisterPass = true;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _nascController = TextEditingController();
+  final TextEditingController _cpfController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _moneyController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +44,10 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 35,
           ),
-          const TextField(
+          TextField(
+            controller: _nameController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               floatingLabelAlignment: FloatingLabelAlignment.center,
               label: Text(
@@ -54,9 +70,10 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const TextField(
+          TextField(
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               floatingLabelAlignment: FloatingLabelAlignment.center,
               label: Text(
@@ -80,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           TextField(
+            controller: _passController,
             keyboardType: TextInputType.text,
             obscureText: showRegisterPass,
             decoration: InputDecoration(
@@ -112,91 +130,60 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          TextField(
-            keyboardType: TextInputType.text,
-            obscureText: showRegisterPass,
-            decoration: InputDecoration(
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              floatingLabelAlignment: FloatingLabelAlignment.center,
-              label: const Text(
-                'Confirme sua senha',
-                style: TextStyle(
-                    color: Colors.black45,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.purple)),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    showRegisterPass = !showRegisterPass;
-                  });
-                },
-                icon: Icon(
-                  showRegisterPass ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.purple,
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _nascController,
+                  keyboardType: TextInputType.datetime,
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    label: Text(
+                      'Data de nascimento',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    suffixIcon: Icon(
+                      Icons.date_range_outlined,
+                      color: Colors.purple,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: const [
-               Expanded(
-                  child: TextField(
-                    keyboardType: TextInputType.datetime,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelAlignment: FloatingLabelAlignment.center,
-                      label: Text(
-                        'Data de nascimento',
-                        style: TextStyle(
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple)),
-                      suffixIcon: Icon(
-                        Icons.date_range_outlined,
-                        color: Colors.purple,
-                      ),
-                    ),
-                  ),
-              ),
-               SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-               Expanded(
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      floatingLabelAlignment: FloatingLabelAlignment.center,
-                      label: Text(
-                        'CPF',
-                        style: TextStyle(
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.purple)),
-                      suffixIcon: Icon(
-                        Icons.fact_check_outlined,
-                        color: Colors.purple,
-                      ),
+              Expanded(
+                child: TextField(
+                  controller: _cpfController,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    label: Text(
+                      'CPF',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.purple)),
+                    suffixIcon: Icon(
+                      Icons.fact_check_outlined,
+                      color: Colors.purple,
                     ),
                   ),
+                ),
               ),
             ],
           ),
@@ -204,11 +191,12 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Row(
-            children: const[
+            children: [
               Expanded(
                 child: TextField(
+                  controller: _streetController,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     floatingLabelAlignment: FloatingLabelAlignment.center,
                     label: Text(
@@ -229,13 +217,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
                 child: TextField(
+                  controller: _numberController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     floatingLabelAlignment: FloatingLabelAlignment.center,
                     label: Text(
@@ -261,9 +250,10 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const TextField(
+          TextField(
+            controller: _districtController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               floatingLabelAlignment: FloatingLabelAlignment.center,
               label: Text(
@@ -284,11 +274,49 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           const SizedBox(
+            height: 20,
+          ),
+          TextField(
+            controller: _moneyController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              floatingLabelAlignment: FloatingLabelAlignment.center,
+              label: Text(
+                'Saldo na conta',
+                style: TextStyle(
+                    color: Colors.black45,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.purple)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.purple)),
+              suffixIcon: Icon(
+                Icons.monetization_on,
+                color: Colors.purple,
+              ),
+            ),
+          ),
+          const SizedBox(
             height: 35,
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              final user = {
+                "id": "",
+                "name": _nameController.text,
+                "email": _emailController.text,
+                "password": _passController.text,
+                "cpf": _cpfController.text,
+                "nascimento": DateFormat('dd/MM/yyyy').parse(_nascController.text),
+                "rua": _districtController.text,
+                "numeroCasa": _numberController.text,
+                "bairro": _districtController.text,
+                "saldo": _moneyController.text
+              };
+              _register(context, user);
             },
             style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(const Size(0, 50)),
