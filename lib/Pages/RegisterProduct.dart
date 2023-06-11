@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterProductPage extends StatefulWidget {
   const RegisterProductPage({super.key});
@@ -8,6 +10,9 @@ class RegisterProductPage extends StatefulWidget {
 }
 
 class _RegisterProductPageState extends State<RegisterProductPage> {
+  List<File?> images = List.generate(3, (_) => null);
+  List<String?> imageUrls = List.generate(3, (_) => null);
+  //final imagePicker = ImagePicker();
   String _valorSelect = "3";
   @override
   Widget build(BuildContext context) {
@@ -169,22 +174,68 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Colors.black12,
-                      ),
-                      child: const Icon(
-                        Icons.add_rounded,
-                        size: 80,
-                        color: Colors.black26,
-                      ),
-                    ),
+                  Row(
+                    children: [
+                      for (int i = 0; i < images.length; i++)
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Stack(
+                              children: [
+                                if (imageUrls[i] == null)
+                                  Positioned(
+                                    child: SizedBox(
+                                      height: 100,
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          pickImage(i);
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(40),
+                                          ),
+                                          backgroundColor: Colors.black12,
+                                          side: BorderSide(color: Colors.transparent),
+                                        ),
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.add_rounded,
+                                            size: 80,
+                                            color: Colors.black26,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (imageUrls[i] != null)
+                                  Container(
+                                    width: 100,
+                                    height: 100,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40),
+                                      color: Colors.black12,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: AspectRatio(
+                                        aspectRatio: 1.0,
+                                        child: Image.network(
+                                          imageUrls[i]!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                   const SizedBox(
                     height: 20,
@@ -221,5 +272,13 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
         ),
       ),
     );
+  }
+  Future pickImage(int index) async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    setState(() {
+      images[index] = File(image.path);
+      imageUrls[index] = image.path;
+    });
   }
 }
