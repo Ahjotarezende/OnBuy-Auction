@@ -8,6 +8,8 @@ import 'package:on_buy_auction/Pages/Login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 
 Future<void> main() async {
@@ -17,6 +19,11 @@ await Firebase.initializeApp(
 );
 runApp(const MaterialApp(home: OpeningPage()));
 }
+
+
+//Storage
+final storage = FirebaseStorage.instance;
+
 
 /*
 void setData(String nome, String valor) {

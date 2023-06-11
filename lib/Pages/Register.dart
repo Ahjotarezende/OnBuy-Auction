@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -9,6 +10,22 @@ class RegisterPage extends StatefulWidget {
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
+
+try {
+  final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: emailAddress,
+    password: password,
+  );
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'senha fraca') {
+    print('A senha inserida é muito fraca.');
+  } else if (e.code == 'este e-mail já está em uso') {
+    print('Uma conta já está em uso para este e-mail.');
+  }
+} catch (e) {
+  print(e);
+}
+
 
 class _RegisterPageState extends State<RegisterPage> {
   Future _register(context, user) async {

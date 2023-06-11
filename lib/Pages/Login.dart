@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Home.dart';
 import 'package:on_buy_auction/Pages/Register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,6 +9,17 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+
+FirebaseAuth.instance
+  .authStateChanges()
+  .listen((User? user) {
+    if (user == null) {
+      print('Usuário nã está logado!');
+    } else {
+      print('Usuário está logado!');
+    }
+  });
+
 
 class _LoginPageState extends State<LoginPage> {
   bool showPass = true;
