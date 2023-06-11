@@ -25,6 +25,7 @@ runApp(const MaterialApp(home: OpeningPage()));
 final storage = FirebaseStorage.instance;
 
 
+
 /*
 void setData(String nome, String valor) {
 var db = FirebaseFirestore. instance;

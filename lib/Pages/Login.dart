@@ -14,11 +14,33 @@ FirebaseAuth.instance
   .authStateChanges()
   .listen((User? user) {
     if (user == null) {
-      print('Usuário nã está logado!');
+      print('Usuário não está logado!');
     } else {
       print('Usuário está logado!');
     }
   });
+
+  FirebaseAuth.instance
+  .idTokenChanges()
+  .listen((User? user) {
+    if (user == null) {
+      print('Usuário não está logado!');
+    } else {
+      print('Usuário está logado!');
+    }
+  });
+
+  FirebaseAuth.instance
+  .userChanges()
+  .listen((User? user) {
+    if (user == null) {
+      print('Usuário não está logado!');
+    } else {
+      print('Usuário está logado!');
+    }
+  });
+
+
 
 
 class _LoginPageState extends State<LoginPage> {
