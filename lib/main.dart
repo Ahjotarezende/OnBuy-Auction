@@ -10,6 +10,9 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+//Sensor
+import 'package:sensors_plus/sensors_plus.dart';
+
 
 
 Future<void> main() async {
