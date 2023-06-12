@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 
 class RegisterProductPage extends StatefulWidget {
   const RegisterProductPage({Key? key});
@@ -28,7 +29,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           product["nome"].isEmpty ||
           product["descricao"].isEmpty ||
           product["lance"].isEmpty ||
-          product["tempo"].isEmpty ||
+          //product["tempo"].isEmpty ||
           product["imagem"].isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
@@ -329,7 +330,8 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                           "descricao": _descriptionController.text,
                           "lance": _bidController.text,
                           "tempo": _timeController.text,
-                          "imagem": imageUrls
+                          "imagem": imageUrls,
+                          "Created_at": DateTime.now()
                         });
                       },
                       style: ButtonStyle(
