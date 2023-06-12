@@ -24,25 +24,6 @@ runApp(const MaterialApp(home: OpeningPage()));
 }
 
 
-//Storage
-final storage = FirebaseStorage.instance;
-
-
-
-/*
-void setData(String nome, String valor) {
-var db = FirebaseFirestore. instance;
-print("dados: $nome $valor ");
-
-db
-.collection( "users")
-.add(<String, dynamic>{"nome": nome, "valor": valor}).then(
-(DocumentReference doc) =>
-print( 'DocumentSnapshot added with ID: ${doc.id}'));
-}
-*/
-
-
 class OpeningPage extends StatelessWidget {
   const OpeningPage({super.key});
 
