@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
 
@@ -12,7 +13,9 @@ class Produto {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final usuario;
+
+  const HomePage({super.key, required this.usuario});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -358,7 +361,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => InfosPage(usuario: widget.usuario)));
+                        },
                         icon: const Icon(
                           Icons.person_outline_rounded,
                           color: Colors.white,
