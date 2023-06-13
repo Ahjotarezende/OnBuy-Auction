@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_buy_auction/Pages/favorites.dart';
 import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
@@ -9,8 +10,10 @@ class Produto {
   String imagem;
   double lance;
   int tempo;
+  String category;
+  String id;
 
-  Produto(this.nome, this.imagem, this.lance, this.tempo);
+  Produto(this.nome, this.imagem, this.lance, this.tempo, this.category, this.id);
 }
 
 class HomePage extends StatefulWidget {
@@ -40,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   String selectedFilter = "";
+  final TextEditingController _filterController = TextEditingController();
 
   @override
   void initState() {
@@ -57,6 +61,8 @@ class _HomePageState extends State<HomePage> {
           data['imagem'],
           data['lance'].toDouble(),
           data['tempo'],
+          data['category'],
+          data['id']
         );
       }).toList();
 
@@ -69,6 +75,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void filterByInput(String Name){
+    setState(() {
+      filteredProducts = allProducts
+          .where((produto) => produto.nome.toLowerCase().contains(Name.toLowerCase()))
+          .toList();
+    });
+  }
+
   void applyFilter(String filter) {
     setState(() {
       selectedFilter = filter;
@@ -76,10 +90,44 @@ class _HomePageState extends State<HomePage> {
         filteredProducts = allProducts.toList();
       } else {
         filteredProducts = allProducts.where((product) {
-          return product.nome.contains(filter);
+          return product.category.contains(filter);
         }).toList();
       }
     });
+  }
+
+  Future _saveProduct(Produto produto, String idPessoa) async {
+    try {
+      await FirebaseFirestore.instance.collection("usuarios")
+          .doc(idPessoa)
+          .update({
+        'favoritos': FieldValue.arrayUnion([{"nome": produto.nome, "lanceInicial": produto.lance, "categoria": produto.category}])
+      })
+          .then((value) =>
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Adicionado aos favoritos",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Poppins"),
+            ),
+            duration: Duration(seconds: 2),
+          )));
+    }catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(
+          e.toString(),
+          style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Poppins"),
+        ),
+        duration: const Duration(seconds: 2),
+      ));
+    }
   }
 
   ImageProvider getImageProvider(String imagem) {
@@ -121,8 +169,10 @@ class _HomePageState extends State<HomePage> {
               ),
               Container(
                 padding: const EdgeInsets.only(right: 20),
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: _filterController,
+                  onChanged: (val)=>filterByInput(val),
+                  decoration: const InputDecoration(
                       hintText: "Pesquise",
                       hintStyle: TextStyle(fontSize: 25),
                       suffixIcon: Icon(
@@ -258,7 +308,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Text(
-                                    "${produto.tempo} d",
+                                    "${produto.tempo} ${produto.tempo != 24 ? 'd':'h'}",
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -299,7 +349,9 @@ class _HomePageState extends State<HomePage> {
                                 width: 5,
                               ),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _saveProduct(produto, widget.usuario["id"]);
+                                },
                                 style: ButtonStyle(
                                   side: MaterialStateProperty.all(
                                       const BorderSide(
@@ -374,7 +426,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FavoritePage(usuario: widget.usuario)));
+                      },
                       icon: const Icon(
                         Icons.favorite_border_rounded,
                         color: Colors.white,

@@ -17,7 +17,6 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
   List<String?> imageUrls = List.generate(3, (_) => null);
   String _valorSelect = "3";
   String _valorType = "gamer";
-  //final FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<void> _register(context, product) async {
     print(product["nome"]);
@@ -30,7 +29,6 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           product["nome"].isEmpty ||
           product["descricao"].isEmpty ||
           product["lance"].isEmpty ||
-          //product["tempo"].isEmpty ||
           product["imagem"].isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
@@ -266,35 +264,35 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                       DropdownButton<String>(
                         items: const [
                           DropdownMenuItem<String>(
-                            value: 'gamer',
+                            value: 'Gamer',
                             child: Text('Gamer'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'casa',
+                            value: 'Casa',
                             child: Text('Casa'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'celulares',
+                            value: 'Celulares',
                             child: Text('Celulares'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'automoveis',
+                            value: 'Automóveis',
                             child: Text('Automóveis'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'roupas',
+                            value: 'Roupas',
                             child: Text('Roupas'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'decoracao',
+                            value: 'Decoração',
                             child: Text('Decoração'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'eletrodomesticos',
+                            value: 'Eletrodomésticos',
                             child: Text('Eletrodomésticos'),
                           ),
                           DropdownMenuItem<String>(
-                            value: 'esportes',
+                            value: 'Esportes',
                             child: Text('Esportes'),
                           ),
                         ],
