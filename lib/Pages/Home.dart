@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Produto {
   String nome;
   String imagem;
-  double valor;
-  int dias;
+  double lance;
+  int tempo;
 
-  Produto(this.nome, this.imagem, this.valor, this.dias);
+  Produto(this.nome, this.imagem, this.lance, this.tempo);
 }
 
 class HomePage extends StatefulWidget {
@@ -22,33 +23,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Produto> allProducts = [
-    Produto("Produto 1", "assets/images/Produto1.jpg", 50, 1),
-    Produto("Produto 2Produto 2Produto 2Produto 2",
-        "assets/images/Produto2.jpg", 51, 2),
-    Produto("Produto 3", "assets/images/Produto3.jpg", 52, 3),
-    Produto("Produto 4", "assets/images/Produto4.jpg", 53, 4),
-    Produto("Produto 5", "assets/images/Produto5.jpg", 54, 5),
-    Produto("Produto 6", "assets/images/Produto6.jpg", 55, 6),
-    Produto("Produto 7", "assets/images/Produto7.jpg", 56, 7),
-    Produto("Produto 8", "assets/images/Produto8.jpg", 57, 8),
-    Produto("Produto 9", "assets/images/Produto9.jpg", 58, 9),
-    Produto("Produto 10", "assets/images/Produto10.jpg", 59, 10),
-  ];
+  List<Produto> allProducts = [];
 
   List<Produto> filteredProducts = [];
 
   List<String> filters = [
     "Todos",
-    'Produto 1',
-    'Produto 2',
-    'Produto 3',
-    'Produto 5',
-    'Produto 6',
-    'Produto 7',
-    'Produto 8',
-    'Produto 9',
-    'Produto 10',
+    'Gamer',
+    'Casa',
+    'Celulares',
+    'Automóveis',
+    'Roupas',
+    'Decoração',
+    'Eletrodomésticos',
+    'Esportes',
   ];
 
   String selectedFilter = "";
@@ -56,7 +44,29 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    filteredProducts = List.from(allProducts);
+    fetchProducts();
+  }
+
+  Future<void> fetchProducts() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance.collection('teste').get();
+      final List<Produto> produtos = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return Produto(
+          data['nome'],
+          data['imagem'],
+          data['lance'].toDouble(),
+          data['tempo'],
+        );
+      }).toList();
+
+      setState(() {
+        allProducts = produtos;
+        filteredProducts = List.from(allProducts);
+      });
+    } catch (e) {
+      print('Erro ao buscar produtos: $e');
+    }
   }
 
   void applyFilter(String filter) {
@@ -70,6 +80,14 @@ class _HomePageState extends State<HomePage> {
         }).toList();
       }
     });
+  }
+
+  ImageProvider getImageProvider(String imagem) {
+    if (imagem.startsWith('http')) {
+      return NetworkImage(imagem);
+    } else {
+      return AssetImage(imagem);
+    }
   }
 
   @override
@@ -161,10 +179,10 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: filteredProducts.length,
                   itemBuilder: (context, index) {
+                    final produto = filteredProducts[index];
                     return Container(
                       margin: const EdgeInsets.all(8),
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                       width: 230,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -177,29 +195,25 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
-                                image:
-                                    AssetImage(filteredProducts[index].imagem),
+                                image: getImageProvider(produto.imagem),
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          const SizedBox(height: 10),
                           Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              filteredProducts[index].nome,
+                              produto.nome,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Poppins"),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Poppins",
+                              ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -209,24 +223,28 @@ class _HomePageState extends State<HomePage> {
                                   const Text(
                                     "Preço atual",
                                     style: TextStyle(
-                                        fontSize: 13,
-                                        fontFamily: "Poppins",
-                                        color: Colors.grey),
+                                      fontSize: 13,
+                                      fontFamily: "Poppins",
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                   Text(
-                                    "\$${filteredProducts[index].valor}",
+                                    "\$${produto.lance}",
                                     style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                        fontFamily: "Poppins"),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                      fontFamily: "Poppins",
+                                    ),
                                   ),
                                 ],
                               ),
                               const Text(
                                 "|",
                                 style: TextStyle(
-                                    color: Colors.black12, fontSize: 30),
+                                  color: Colors.black12,
+                                  fontSize: 30,
+                                ),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,17 +252,19 @@ class _HomePageState extends State<HomePage> {
                                   const Text(
                                     "Tempo restante",
                                     style: TextStyle(
-                                        fontSize: 13,
-                                        fontFamily: "Poppins",
-                                        color: Colors.grey),
+                                      fontSize: 13,
+                                      fontFamily: "Poppins",
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                   Text(
-                                    "${filteredProducts[index].dias} d",
+                                    "${produto.tempo} d",
                                     style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        fontFamily: "Poppins"),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontFamily: "Poppins",
+                                    ),
                                   ),
                                 ],
                               ),
@@ -263,8 +283,8 @@ class _HomePageState extends State<HomePage> {
                                         const Size(90, 50)),
                                     shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    )),
+                                          borderRadius: BorderRadius.circular(25.0),
+                                        )),
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.purple)),
                                 child: const Text(
@@ -287,12 +307,12 @@ class _HomePageState extends State<HomePage> {
                                   fixedSize: MaterialStateProperty.all(
                                       const Size(90, 50)),
                                   backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
+                                  MaterialStateProperty.all(Colors.white),
                                   shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  )),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      )),
                                 ),
                                 child: const Text(
                                   'Salvar',
@@ -310,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
+
               const SizedBox(
                 height: 20,
               ),
