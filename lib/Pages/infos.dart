@@ -171,6 +171,31 @@ class _InfosPageState extends State<InfosPage> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Saldo: ',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    TextSpan(
+                      text: 'R\$ ${widget.usuario['saldo']},00',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.purple),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
