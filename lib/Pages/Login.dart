@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Home.dart';
 import 'package:on_buy_auction/Pages/Register.dart';
+import 'package:on_buy_auction/Pages/resetPass.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,10 +18,12 @@ class _LoginPageState extends State<LoginPage> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: senha);
       String userId = userCredential.user!.uid;
-      usuario = await FirebaseFirestore.instance.collection('usuarios').doc(userId).get();
-      print(usuario.data());
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage(usuario: usuario.data())));
+      usuario = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(userId)
+          .get();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => HomePage(usuario: usuario.data())));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red,
@@ -102,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 TextFormField(
                   validator: (value) =>
-                      value!.isEmpty ? "Informe um email" : null,
+                  value!.isEmpty ? "Informe um email" : null,
                   controller: email,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
@@ -129,8 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) => value!.isEmpty
                       ? "Informe sua senha"
                       : value!.length < 6
-                          ? "Senha deve ser maior que 6"
-                          : null,
+                      ? "Senha deve ser maior que 6"
+                      : null,
                   controller: senha,
                   keyboardType: TextInputType.text,
                   obscureText: showPass,
@@ -168,27 +171,27 @@ class _LoginPageState extends State<LoginPage> {
                     formKey.currentState!.validate()
                         ? _login(email.text, senha.text)
                         : ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(
-                              "Confira suas informações de login!",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Poppins"),
-                            ),
-                            duration: Duration(seconds: 2),
-                          ));
+                        .showSnackBar(const SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text(
+                        "Confira suas informações de login!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Poppins"),
+                      ),
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(
                           const EdgeInsets.symmetric(vertical: 20)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      )),
+                            borderRadius: BorderRadius.circular(25.0),
+                          )),
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.purple)),
+                      MaterialStateProperty.all(Colors.purple)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -200,11 +203,18 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ResetPassPage()));
+                  },
+                  child: const Text('Esqueceu sua senha?', style: TextStyle(color: Colors.purple),),
+                )
               ],
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Row(
             children: const [

@@ -12,13 +12,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  Future _register(context, user) async {
+  Future _register(context, user, password) async {
     try {
       final date =
           DateFormat("dd/MM/yyyy").parse(BirthMask.getMaskedText()).toString();
       user["nascimento"] = date;
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: user["email"], password: user["senha"]);
+          email: user["email"], password: password);
       String userId = userCredential.user!.uid;
       user['id'] = userId;
       final docUser = FirebaseFirestore.instance.collection("usuarios").doc(userId);
@@ -410,14 +410,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           "id": "",
                           "nome": _nameController.text,
                           "email": _emailController.text,
-                          "senha": _passController.text,
                           "cpf": CPFMask.getMaskedText(),
                           "nascimento": BirthMask.getMaskedText(),
                           "rua": _streetController.text,
                           "numeroCasa": _numberController.text,
                           "bairro": _districtController.text,
                           "saldo": _moneyController.text
-                        });
+                        }, _passController.text);
                       } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
