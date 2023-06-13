@@ -416,7 +416,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           "rua": _streetController.text,
                           "numeroCasa": _numberController.text,
                           "bairro": _districtController.text,
-                          "saldo": _moneyController.text
+                          "saldo": _moneyController.text,
+                          "favoritos": []
                         }, _passController.text);
                       } else {
                         ScaffoldMessenger.of(context)
