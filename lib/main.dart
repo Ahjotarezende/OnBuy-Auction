@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Login.dart';
-
-
-//Banco de Dados
-//import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:sqflite/sqflite.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-//Sensor
 import 'package:sensors_plus/sensors_plus.dart';
-
-
 
 Future<void> main() async {
 WidgetsFlutterBinding.ensureInitialized();
@@ -68,9 +59,3 @@ class OpeningPage extends StatelessWidget {
     );
   }
 }
-
-/*
-void main() {
-  runApp(const MaterialApp(home: OpeningPage()));
-}
-*/

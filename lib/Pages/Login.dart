@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:on_buy_auction/Pages/Home.dart';
 import 'package:on_buy_auction/Pages/Register.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:on_buy_auction/Pages/resetPass.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -44,9 +46,37 @@ FirebaseAuth.instance
 
 
 class _LoginPageState extends State<LoginPage> {
+  Future _login(email, senha) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: senha);
+      String userId = userCredential.user!.uid;
+      usuario = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(userId)
+          .get();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => HomePage(usuario: usuario.data())));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(
+          e.toString(),
+          style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Poppins"),
+        ),
+        duration: Duration(seconds: 2),
+      ));
+    }
+  }
+
   bool showPass = true;
-  bool emailFocus = false;
-  bool passFocus = false;
+  var usuario;
+  final TextEditingController email = TextEditingController();
+  final TextEditingController senha = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,85 +132,122 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(
             height: 95,
           ),
-          const TextField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    borderSide: BorderSide(color: Colors.purple)),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(40))),
-                label: Text(
-                  'Digite seu E-mail',
-                  style: TextStyle(
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.5),
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  validator: (value) =>
+                  value!.isEmpty ? "Informe um email" : null,
+                  controller: email,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          borderSide: BorderSide(color: Colors.purple)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      label: Text(
+                        'Digite seu E-mail',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.5),
+                      ),
+                      hintText: 'E-mail',
+                      suffixIconColor: Colors.purple,
+                      suffixIcon: Icon(Icons.person_2_outlined)),
                 ),
-                hintText: 'E-mail',
-                suffixIconColor: Colors.purple,
-                suffixIcon: Icon(Icons.person_2_outlined)),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          TextField(
-            keyboardType: TextInputType.text,
-            obscureText: showPass,
-            decoration: InputDecoration(
-                focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    borderSide: BorderSide(color: Colors.purple)),
-                suffixIcon: IconButton(
+                const SizedBox(
+                  height: 25,
+                ),
+                TextFormField(
+                  validator: (value) => value!.isEmpty
+                      ? "Informe sua senha"
+                      : value!.length < 6
+                      ? "Senha deve ser maior que 6"
+                      : null,
+                  controller: senha,
+                  keyboardType: TextInputType.text,
+                  obscureText: showPass,
+                  decoration: InputDecoration(
+                      focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                          borderSide: BorderSide(color: Colors.purple)),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPass = !showPass;
+                          });
+                        },
+                        icon: Icon(
+                          showPass ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.purple,
+                        ),
+                      ),
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                      label: const Text(
+                        'Digite sua senha',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.5),
+                      ),
+                      hintText: 'Senha'),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      showPass = !showPass;
-                    });
+                    formKey.currentState!.validate()
+                        ? _login(email.text, senha.text)
+                        : ScaffoldMessenger.of(context)
+                        .showSnackBar(const SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text(
+                        "Confira suas informações de login!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Poppins"),
+                      ),
+                      duration: Duration(seconds: 2),
+                    ));
                   },
-                  icon: Icon(
-                    showPass ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.purple,
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(vertical: 20)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          )),
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.purple)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'Continuar',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Icon(Icons.arrow_right)
+                    ],
                   ),
                 ),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(40))),
-                label: const Text(
-                  'Digite sua senha',
-                  style: TextStyle(
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.5),
-                ),
-                hintText: 'Senha'),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            },
-            style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(const Size(0, 50)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                )),
-                backgroundColor: MaterialStateProperty.all(Colors.purple)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Continuar',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Icon(Icons.arrow_right)
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ResetPassPage()));
+                  },
+                  child: const Text('Esqueceu sua senha?', style: TextStyle(color: Colors.purple),),
+                )
               ],
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Row(
             children: const [
