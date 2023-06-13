@@ -16,6 +16,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
   List<File?> images = List.generate(3, (_) => null);
   List<String?> imageUrls = List.generate(3, (_) => null);
   String _valorSelect = "3";
+  String _valorType = "gamer";
   //final FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<void> _register(context, product) async {
@@ -90,6 +91,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _bidController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +139,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   TextField(
                     controller: _nameController,
                     keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black45)),
                         label: Text(
@@ -158,7 +160,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   TextField(
                     controller: _descriptionController,
                     keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black45)),
                         label: Text(
@@ -179,7 +181,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   TextField(
                     controller: _bidController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black45)),
                         label: Text(
@@ -245,6 +247,70 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Categoria',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(width: 10),
+                      const Icon(
+                        Icons.timer_outlined,
+                        color: Colors.black45,
+                      ),
+                      const SizedBox(width: 20),
+                      DropdownButton<String>(
+                        items: const [
+                          DropdownMenuItem<String>(
+                            value: 'gamer',
+                            child: Text('Gamer'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'casa',
+                            child: Text('Casa'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'celulares',
+                            child: Text('Celulares'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'automoveis',
+                            child: Text('Automóveis'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'roupas',
+                            child: Text('Roupas'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'decoracao',
+                            child: Text('Decoração'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'eletrodomesticos',
+                            child: Text('Eletrodomésticos'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'esportes',
+                            child: Text('Esportes'),
+                          ),
+                        ],
+                        value: _valorType,
+                        onChanged: (valor) {
+                          setState(() {
+                            _valorType = valor!;
+                            _typeController.text = valor;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const Text(
                     "Inserir imagens",
                     style: TextStyle(
@@ -260,7 +326,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                       for (int i = 0; i < images.length; i++)
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Stack(
                               children: [
                                 if (imageUrls[i] == null)
@@ -277,13 +343,13 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                                             borderRadius: BorderRadius.circular(40),
                                           ),
                                           backgroundColor: Colors.black12,
-                                          side: BorderSide(color: Colors.transparent),
+                                          side: const BorderSide(color: Colors.transparent),
                                         ),
                                         child: Container(
                                           width: 100,
                                           height: 100,
                                           alignment: Alignment.center,
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.add_rounded,
                                             size: 80,
                                             color: Colors.black26,
@@ -319,7 +385,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -331,7 +397,8 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                           "lance": _bidController.text,
                           "tempo": _timeController.text,
                           "imagem": imageUrls,
-                          "Created_at": DateTime.now()
+                          "Created_at": DateTime.now(),
+                          'category' : _typeController.text
                         });
                       },
                       style: ButtonStyle(

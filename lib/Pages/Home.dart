@@ -29,15 +29,14 @@ class _HomePageState extends State<HomePage> {
 
   List<String> filters = [
     "Todos",
-    'Produto 1',
-    'Produto 2',
-    'Produto 3',
-    'Produto 5',
-    'Produto 6',
-    'Produto 7',
-    'Produto 8',
-    'Produto 9',
-    'Produto 10',
+    'Gamer',
+    'Casa',
+    'Celulares',
+    'Automóveis',
+    'Roupas',
+    'Decoração',
+    'Eletrodomésticos',
+    'Esportes',
   ];
 
   String selectedFilter = "";
