@@ -30,6 +30,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String productId = '';
+
   List<Produto> allProducts = [];
 
   List<Produto> filteredProducts = [];
@@ -147,19 +150,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Widget> showImage(String productId) async{
+    print(productId);
     final FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child('product_images')
         .child(productId)
-        .child('image_0.jpg');
+        .child('image_1.jpg');
     String imageUrl = await ref.getDownloadURL();
     return Image.network(imageUrl);
   }
 
   @override
   Widget build(BuildContext context) {
-    final collectionRef = FirebaseFirestore.instance.collection("produtos");
-    final docProduct = collectionRef.doc();
-    showImage(docProduct.id);
+
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -264,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                             width: 200,
                             height: 200,
                             child: FutureBuilder<Widget>(
-                              future: showImage(docProduct.id),
+                              future: showImage(produto.id),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return CircularProgressIndicator();
