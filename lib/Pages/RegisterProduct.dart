@@ -16,7 +16,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
   List<File?> images = List.generate(3, (_) => null);
   List<String?> imageUrls = List.generate(3, (_) => null);
   String _valorSelect = "3";
-  String _valorType = "gamer";
+  String _valorType = 'Gamer';
 
   Future<void> _register(context, product) async {
     print(product["nome"]);
@@ -25,11 +25,11 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           product["descricao"] == null ||
           product["lance"] == null ||
           product["tempo"] == null ||
-          product["imagem"] == null ||
+          //product["imagem"] == null ||
           product["nome"].isEmpty ||
           product["descricao"].isEmpty ||
-          product["lance"].isEmpty ||
-          product["imagem"].isEmpty) {
+          product["lance"].isEmpty ){
+          //product["imagem"].isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text("Alguma informação está faltando!",
@@ -40,19 +40,25 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           duration: Duration(seconds: 2),
         ));
       } else {
-        final docProduct = FirebaseFirestore.instance.collection("produtos").doc();
+        final docProduct = FirebaseFirestore.instance.collection("joaobravinho").doc();
         product["id"] = docProduct.id;
         await docProduct.set(product);
 
         for (int i = 0; i < images.length; i++) {
+          print('oi 1');
           if (images[i] != null) {
+            print('oi 2');
             final file = images[i]!;
+            print('oi 3');
             final storageRef = FirebaseStorage.instance.ref().child('product_images').child(docProduct.id).child('image_$i.jpg');
+            print('oi 4');
             await storageRef.putFile(file);
-            final imageUrl = await storageRef.getDownloadURL();
-            imageUrls[i] = imageUrl;
+            print('oi 5');
+            //final imageUrl = await storageRef.getDownloadURL();
+            //imageUrls[i] = imageUrl;
           }
         }
+        print('oi 6');
 
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.green,
@@ -333,7 +339,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                                       height: 100,
                                       child: OutlinedButton(
                                         onPressed: () {
-                                          pickImage(i);
+                                          pickImage(ImageSource.gallery, i);
                                         },
                                         style: OutlinedButton.styleFrom(
                                           padding: EdgeInsets.zero,
@@ -394,7 +400,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
                           "descricao": _descriptionController.text,
                           "lance": _bidController.text,
                           "tempo": _timeController.text,
-                          "imagem": imageUrls,
+                          //"imagem": imageUrls,
                           "Created_at": DateTime.now(),
                           'category' : _typeController.text
                         });
@@ -428,7 +434,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
       ),
     );
   }
-
+/*
   Future pickImage(int index) async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -436,48 +442,12 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
       images[index] = File(image.path);
       imageUrls[index] = image.path;
     });
-  }
-  /*
-
-  Future<XFile?> getImage() async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    return image;
-  }
-
-  Future<void> upload(String path) async {
-    File file = File(path);
-    try {
-      String ref = 'images/img-${DateTime.now().toString()}.jpg';
-      await storage.ref(ref).putFile(file);
-    } on FirebaseException catch (e) {
-      throw Exception('Erro no upload: ${e.code}');
-    }
-  }
-
-  pickAndUploadImage() async {
-    XFile? file = await getImage();
-    if (file != null) {
-      await upload(file.path);
-    }
   }*/
-
-  Future<void> _uploadImages() async {
-    try {
-      List<String> uploadedImageUrls = [];
-      for (int i = 0; i < images.length; i++) {
-        if (images[i] != null) {
-          Reference ref = FirebaseStorage.instance.ref().child('images/image$i.jpg');
-          UploadTask uploadTask = ref.putFile(images[i]!);
-          TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-          String imageUrl = await taskSnapshot.ref.getDownloadURL();
-          uploadedImageUrls.add(imageUrl);
-        }
-      }
-
-      print('Image URLs: $uploadedImageUrls');
-    } catch (e) {
-      print('Error uploading images: $e');
-    }
+  Future pickImage(ImageSource source, int index) async {
+      final image = await ImagePicker().pickImage(source: source);
+      if(image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() => images[index] = imageTemporary);
+      imageUrls[index] = image.path;
   }
 }
