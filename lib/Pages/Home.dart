@@ -3,6 +3,7 @@ import 'package:on_buy_auction/Pages/favorites.dart';
 import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Produto {
@@ -145,8 +146,20 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<Widget> showImage(String productId) async{
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child('product_images')
+        .child(productId)
+        .child('image_0.jpg');
+    String imageUrl = await ref.getDownloadURL();
+    return Image.network(imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final collectionRef = FirebaseFirestore.instance.collection("produtos");
+    final docProduct = collectionRef.doc();
+    showImage(docProduct.id);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -248,10 +261,19 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
-                            height: 165,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.red
+                            width: 200,
+                            height: 200,
+                            child: FutureBuilder<Widget>(
+                              future: showImage(docProduct.id),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Text('Erro ao carregar a imagem');
+                                } else {
+                                  return snapshot.data!;
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(height: 10),
