@@ -3,6 +3,7 @@ import 'package:on_buy_auction/Pages/favorites.dart';
 import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Produto {
@@ -29,6 +30,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String productId = '';
+
   List<Produto> allProducts = [];
 
   List<Produto> filteredProducts = [];
@@ -163,8 +167,20 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<Widget> showImage(String productId) async{
+    print(productId);
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child('product_images')
+        .child(productId)
+        .child('image_1.jpg');
+    String imageUrl = await ref.getDownloadURL();
+    return Image.network(imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -267,10 +283,32 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            width: 200,
+                            height: 200,
+=======
+                            width: 180,
+                            height: 180,
+>>>>>>> 48b99969e26104b582b74f32ab064a00f37100f7
+                            child: FutureBuilder<Widget>(
+                              future: showImage(produto.id),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Text('Erro ao carregar a imagem');
+                                } else {
+                                  return snapshot.data!;
+                                }
+                              },
+                            ),
+=======
                             height: 165,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.red),
+>>>>>>> develop
                           ),
                           const SizedBox(height: 10),
                           Align(
@@ -285,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -343,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,8 +393,13 @@ class _HomePageState extends State<HomePage> {
                                         const Size(90, 50)),
                                     shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
+<<<<<<< HEAD
                                       borderRadius: BorderRadius.circular(25.0),
                                     )),
+=======
+                                          borderRadius: BorderRadius.circular(2\ x5.0),
+                                        )),
+>>>>>>> 48b99969e26104b582b74f32ab064a00f37100f7
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.purple)),
                                 child: const Text(
