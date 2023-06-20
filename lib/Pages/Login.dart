@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 45),
+        padding: const EdgeInsets.symmetric(vertical: 115, horizontal: 37),
         children: [
           Row(
             children: [

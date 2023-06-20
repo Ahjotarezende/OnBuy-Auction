@@ -264,8 +264,8 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
-                            width: 200,
-                            height: 200,
+                            width: 180,
+                            height: 180,
                             child: FutureBuilder<Widget>(
                               future: showImage(produto.id),
                               builder: (context, snapshot) {
@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -350,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -362,7 +362,7 @@ class _HomePageState extends State<HomePage> {
                                         const Size(90, 50)),
                                     shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(25.0),
+                                          borderRadius: BorderRadius.circular(2\ x5.0),
                                         )),
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.purple)),
