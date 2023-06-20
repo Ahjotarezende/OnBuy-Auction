@@ -24,6 +24,7 @@ class _RegisterProductPageState extends State<RegisterProductPage> {
           FirebaseFirestore.instance.collection("produtos").doc();
       product["id"] = docProduct.id;
       await docProduct.set(product);
+
       for (int i = 0; i < images.length; i++) {
         if (images[i] != null) {
           final file = images[i]!;
