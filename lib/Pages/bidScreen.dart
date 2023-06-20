@@ -5,6 +5,7 @@ import 'package:on_buy_auction/Pages/notify.dart';
 import 'package:on_buy_auction/Pages/RegisterProduct.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 class Produto {
   String nome;
@@ -20,16 +21,16 @@ class Produto {
   Produto(this.created_at, this.category, this.descricao, this.id, this.imagem, this.lance, this.nome, this.tempo, this.lastBid);
 }
 
-class HomePage extends StatefulWidget {
+class bidScreen extends StatefulWidget {
   final usuario;
 
-  const HomePage({super.key, required this.usuario});
+  const bidScreen({super.key, required this.usuario});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<bidScreen> createState() => _bidScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _bidScreenState extends State<bidScreen> {
   List<Produto> allProducts = [];
 
   List<Produto> filteredProducts = [];
