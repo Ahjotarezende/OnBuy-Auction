@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
               fontWeight: FontWeight.bold,
               fontFamily: "Poppins"),
         ),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ));
     }
   }

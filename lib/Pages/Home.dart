@@ -7,13 +7,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Produto {
   String nome;
-  String imagem;
+  String descricao;
+  String created_at;
+  List imagem;
   double lance;
-  int tempo;
+  String tempo;
   String category;
   String id;
+  String lastBid;
 
-  Produto(this.nome, this.imagem, this.lance, this.tempo, this.category, this.id);
+  Produto(this.created_at, this.category, this.descricao, this.id, this.imagem, this.lance, this.nome, this.tempo, this.lastBid);
 }
 
 class HomePage extends StatefulWidget {
@@ -53,16 +56,19 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchProducts() async {
     try {
-      final snapshot = await FirebaseFirestore.instance.collection('teste').get();
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('produtos').get();
       final List<Produto> produtos = snapshot.docs.map((doc) {
-        final data = doc.data();
+        Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return Produto(
-          data['nome'],
-          data['imagem'],
-          data['lance'].toDouble(),
-          data['tempo'],
-          data['category'],
-          data['id']
+          data!['Created_at'],
+          data!['category'],
+          data!['descricao'],
+          data!['id'],
+          data!['imagem'],
+          double.parse(data!['lance']),
+          data!['nome'],
+          data!['tempo'],
+          data!['lastBid']
         );
       }).toList();
 
@@ -77,6 +83,7 @@ class _HomePageState extends State<HomePage> {
 
   void filterByInput(String Name){
     setState(() {
+      selectedFilter = 'Todos';
       filteredProducts = allProducts
           .where((produto) => produto.nome.toLowerCase().contains(Name.toLowerCase()))
           .toList();
@@ -244,10 +251,7 @@ class _HomePageState extends State<HomePage> {
                             height: 165,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                image: getImageProvider(produto.imagem),
-                                fit: BoxFit.cover,
-                              ),
+                              color: Colors.red
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -308,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Text(
-                                    "${produto.tempo} ${produto.tempo != 24 ? 'd':'h'}",
+                                    "${produto.tempo} ${produto.tempo != '24' ? 'h':'d'}",
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
