@@ -16,13 +16,13 @@ class Produto {
   String id;
   String lastBid;
 
-  Produto(this.created_at, this.category, this.descricao, this.id, this.imagem, this.lance, this.nome, this.tempo, this.lastBid);
+  Produto(this.created_at, this.category, this.descricao, this.id, this.imagem,
+      this.lance, this.nome, this.tempo, this.lastBid);
 }
 
 class HomePage extends StatefulWidget {
   final usuario;
-
-  const HomePage({super.key, required this.usuario});
+  HomePage({super.key, required this.usuario});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -54,24 +54,28 @@ class _HomePageState extends State<HomePage> {
     fetchProducts();
   }
 
+  verifyFavorite(Produto produto) {
+    return widget.usuario!['favoritos']
+        .any((product) => produto.nome == product["nome"]);
+  }
+
   Future<void> fetchProducts() async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('produtos').get();
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('produtos').get();
       final List<Produto> produtos = snapshot.docs.map((doc) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return Produto(
-          data!['Created_at'],
-          data!['category'],
-          data!['descricao'],
-          data!['id'],
-          data!['imagem'],
-          double.parse(data!['lance']),
-          data!['nome'],
-          data!['tempo'],
-          data!['lastBid']
-        );
+            data!['Created_at'],
+            data!['category'],
+            data!['descricao'],
+            data!['id'],
+            data!['imagem'],
+            double.parse(data!['lance']),
+            data!['nome'],
+            data!['tempo'],
+            data!['lastBid']);
       }).toList();
-
       setState(() {
         allProducts = produtos;
         filteredProducts = List.from(allProducts);
@@ -81,11 +85,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void filterByInput(String Name){
+  void filterByInput(String Name) {
     setState(() {
       selectedFilter = 'Todos';
       filteredProducts = allProducts
-          .where((produto) => produto.nome.toLowerCase().contains(Name.toLowerCase()))
+          .where((produto) =>
+              produto.nome.toLowerCase().contains(Name.toLowerCase()))
           .toList();
     });
   }
@@ -105,24 +110,37 @@ class _HomePageState extends State<HomePage> {
 
   Future _saveProduct(Produto produto, String idPessoa) async {
     try {
-      await FirebaseFirestore.instance.collection("usuarios")
+      await FirebaseFirestore.instance
+          .collection("usuarios")
           .doc(idPessoa)
           .update({
-        'favoritos': FieldValue.arrayUnion([{"nome": produto.nome, "lanceInicial": produto.lance, "categoria": produto.category}])
-      })
-          .then((value) =>
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              "Adicionado aos favoritos",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Poppins"),
-            ),
-            duration: Duration(seconds: 2),
-          )));
-    }catch(e){
+        'favoritos': FieldValue.arrayUnion([
+          {
+            "nome": produto.nome,
+            "lanceInicial": produto.lance,
+            "categoria": produto.category,
+            'id': produto.id
+          }
+        ])
+      }).then((value) =>
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.green,
+                content: Text(
+                  "Adicionado aos favoritos",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Poppins"),
+                ),
+                duration: Duration(seconds: 2),
+              )));
+      widget.usuario!['favoritos'].add({
+        "nome": produto.nome,
+        "lanceInicial": produto.lance,
+        "categoria": produto.category,
+        'id': produto.id
+      });
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red,
         content: Text(
@@ -178,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(right: 20),
                 child: TextField(
                   controller: _filterController,
-                  onChanged: (val)=>filterByInput(val),
+                  onChanged: (val) => filterByInput(val),
                   decoration: const InputDecoration(
                       hintText: "Pesquise",
                       hintStyle: TextStyle(fontSize: 25),
@@ -239,7 +257,8 @@ class _HomePageState extends State<HomePage> {
                     final produto = filteredProducts[index];
                     return Container(
                       margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
                       width: 230,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -250,9 +269,8 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             height: 165,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.red
-                            ),
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.red),
                           ),
                           const SizedBox(height: 10),
                           Align(
@@ -312,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Text(
-                                    "${produto.tempo} ${produto.tempo != '24' ? 'h':'d'}",
+                                    "${produto.tempo} ${produto.tempo != '24' ? 'h' : 'd'}",
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -337,8 +355,8 @@ class _HomePageState extends State<HomePage> {
                                         const Size(90, 50)),
                                     shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(25.0),
-                                        )),
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    )),
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.purple)),
                                 child: const Text(
@@ -354,7 +372,10 @@ class _HomePageState extends State<HomePage> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  _saveProduct(produto, widget.usuario["id"]);
+                                  verifyFavorite(produto)
+                                      ? null
+                                      : _saveProduct(
+                                          produto, widget.usuario["id"]);
                                 },
                                 style: ButtonStyle(
                                   side: MaterialStateProperty.all(
@@ -362,20 +383,24 @@ class _HomePageState extends State<HomePage> {
                                           color: Colors.purple, width: 2)),
                                   fixedSize: MaterialStateProperty.all(
                                       const Size(90, 50)),
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      verifyFavorite(produto)
+                                          ? Colors.purple
+                                          : Colors.white),
                                   shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
+                                          RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      )),
+                                    borderRadius: BorderRadius.circular(25.0),
+                                  )),
                                 ),
-                                child: const Text(
-                                  'Salvar',
+                                child: Text(
+                                  verifyFavorite(produto) ? "Salvo" : "Salvar",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: "Poppins",
-                                      color: Colors.black),
+                                      color: verifyFavorite(produto)
+                                          ? Colors.white
+                                          : Colors.black),
                                 ),
                               ),
                             ],
@@ -386,7 +411,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -432,7 +456,8 @@ class _HomePageState extends State<HomePage> {
                     IconButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FavoritePage(usuario: widget.usuario)));
+                            builder: (context) =>
+                                FavoritePage(usuario: widget.usuario)));
                       },
                       icon: const Icon(
                         Icons.favorite_border_rounded,
@@ -441,15 +466,17 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => InfosPage(usuario: widget.usuario)));
-                        },
-                        icon: const Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.white,
-                          size: 33,
-                        ))
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                InfosPage(usuario: widget.usuario)));
+                      },
+                      icon: const Icon(
+                        Icons.person_outline_rounded,
+                        color: Colors.white,
+                        size: 33,
+                      ),
+                    )
                   ],
                 ),
               ),
