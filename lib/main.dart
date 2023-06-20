@@ -15,6 +15,16 @@ runApp(const MaterialApp(home: OpeningPage()));
 }
 
 
+Stream<GyroscopeEvent> gyroscopeEvent
+void initState(){
+  gyroscopeEvents.listen(
+    (GyroscopeEvent event) {
+      var x = event.x; //~0
+      var y = event.y; //~0
+      var z = event.z; //~0
+    },
+  );
+}
 class OpeningPage extends StatelessWidget {
   const OpeningPage({super.key});
 
