@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchProducts() async {
     try {
       QuerySnapshot snapshot =
-          await FirebaseFirestore.instance.collection('produtos').get();
+      await FirebaseFirestore.instance.collection('produtos').get();
       final List<Produto> produtos = snapshot.docs.map((doc) {
         Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
         return Produto(
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
       selectedFilter = 'Todos';
       filteredProducts = allProducts
           .where((produto) =>
-              produto.nome.toLowerCase().contains(Name.toLowerCase()))
+          produto.nome.toLowerCase().contains(Name.toLowerCase()))
           .toList();
     });
   }
@@ -127,17 +127,17 @@ class _HomePageState extends State<HomePage> {
           }
         ])
       }).then((value) =>
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                backgroundColor: Colors.green,
-                content: Text(
-                  "Adicionado aos favoritos",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Poppins"),
-                ),
-                duration: Duration(seconds: 2),
-              )));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Adicionado aos favoritos",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Poppins"),
+            ),
+            duration: Duration(seconds: 2),
+          )));
       widget.usuario!['favoritos'].add({
         "nome": produto.nome,
         "lanceInicial": produto.lance,
@@ -274,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                     return Container(
                       margin: const EdgeInsets.all(8),
                       padding:
-                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      const EdgeInsets.only(top: 10, left: 10, right: 10),
                       width: 230,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -283,14 +283,8 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           Container(
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            width: 200,
-                            height: 200,
-=======
                             width: 180,
                             height: 180,
->>>>>>> 48b99969e26104b582b74f32ab064a00f37100f7
                             child: FutureBuilder<Widget>(
                               future: showImage(produto.id),
                               builder: (context, snapshot) {
@@ -303,12 +297,6 @@ class _HomePageState extends State<HomePage> {
                                 }
                               },
                             ),
-=======
-                            height: 165,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.red),
->>>>>>> develop
                           ),
                           const SizedBox(height: 10),
                           Align(
@@ -323,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -381,7 +369,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 5,
+                            height: 10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -393,13 +381,8 @@ class _HomePageState extends State<HomePage> {
                                         const Size(90, 50)),
                                     shape: MaterialStateProperty.all(
                                         RoundedRectangleBorder(
-<<<<<<< HEAD
-                                      borderRadius: BorderRadius.circular(25.0),
-                                    )),
-=======
-                                          borderRadius: BorderRadius.circular(2\ x5.0),
+                                          borderRadius: BorderRadius.circular(25.0),
                                         )),
->>>>>>> 48b99969e26104b582b74f32ab064a00f37100f7
                                     backgroundColor: MaterialStateProperty.all(
                                         Colors.purple)),
                                 child: const Text(
@@ -418,7 +401,7 @@ class _HomePageState extends State<HomePage> {
                                   verifyFavorite(produto)
                                       ? null
                                       : _saveProduct(
-                                          produto, widget.usuario["id"]);
+                                      produto, widget.usuario["id"]);
                                 },
                                 style: ButtonStyle(
                                   side: MaterialStateProperty.all(
@@ -431,10 +414,10 @@ class _HomePageState extends State<HomePage> {
                                           ? Colors.purple
                                           : Colors.white),
                                   shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  )),
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      )),
                                 ),
                                 child: Text(
                                   verifyFavorite(produto) ? "Salvo" : "Salvar",
@@ -509,17 +492,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                InfosPage(usuario: widget.usuario)));
-                      },
-                      icon: const Icon(
-                        Icons.person_outline_rounded,
-                        color: Colors.white,
-                        size: 33,
-                      ),
-                    )
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => InfosPage(usuario: widget.usuario)));
+                        },
+                        icon: const Icon(
+                          Icons.person_outline_rounded,
+                          color: Colors.white,
+                          size: 33,
+                        ))
                   ],
                 ),
               ),

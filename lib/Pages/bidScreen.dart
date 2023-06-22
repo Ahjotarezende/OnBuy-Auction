@@ -1,9 +1,5 @@
+/*
 import 'package:flutter/material.dart';
-import 'package:on_buy_auction/Pages/favorites.dart';
-import 'package:on_buy_auction/Pages/infos.dart';
-import 'package:on_buy_auction/Pages/notify.dart';
-import 'package:on_buy_auction/Pages/RegisterProduct.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -140,4 +136,4 @@ Future<void> _showMyDialog() async {
       );
     },
   );
-}
+}*/
