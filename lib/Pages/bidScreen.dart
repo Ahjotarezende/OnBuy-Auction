@@ -173,7 +173,6 @@ Future<void> _register(dynamic context) async{
                               title: Text('Deseja Fazer Um Lance ?'),
                               content: Text('Para Realizar Um Lance: BALANCE O CELULAR!'),
                               actions: [
-                                *
                                 ElevatedButton(
                                   style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all(
