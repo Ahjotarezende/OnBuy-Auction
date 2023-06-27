@@ -53,11 +53,6 @@ class _bidScreenState extends State<bidScreen> {
     fetchProducts();
   }
 
-  verifyFavorite(Produto produto) {
-    return widget.usuario!['favoritos']
-        .any((product) => produto.nome == product["nome"]);
-  }
-
   Future<void> fetchProducts() async {
     try {
       QuerySnapshot snapshot =
