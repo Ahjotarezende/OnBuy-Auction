@@ -103,7 +103,7 @@ class _bidScreenState extends State<bidScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  "Comprar",
+                  "Leilão",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 35,
@@ -117,21 +117,47 @@ class _bidScreenState extends State<bidScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: const Text(
-                        "Não há notificações para mostrar",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple),
-                      ),
-                    )
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(
+                                        const Size(90, 50)),
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25.0),
+                                        )),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.purple)),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Deseja Fazer Um Lance ?'),
+                              content: Text('Para Realizar Um Lance: BALANCE O CELULAR!'),
+                              actions: [
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(
+                                        const Size(90, 50)),
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25.0),
+                                        )),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.purple)),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Fechar'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Text('LANCE'),
+                    ),
                   ],
                 )
               ],
