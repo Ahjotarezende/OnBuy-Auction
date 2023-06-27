@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_buy_auction/Pages/bidScreen.dart';
 import 'package:on_buy_auction/Pages/favorites.dart';
 import 'package:on_buy_auction/Pages/infos.dart';
 import 'package:on_buy_auction/Pages/notify.dart';
@@ -375,7 +376,8 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const bidScreenPage()));},
                                 style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all(
                                         const Size(90, 50)),
