@@ -47,11 +47,37 @@ class _bidScreenState extends State<bidScreen> {
   String selectedFilter = "";
   final TextEditingController _filterController = TextEditingController();
 
+Future<void> _register(dynamic context) async{ 
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(
+          "Lance Feito!",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Poppins"),
+        ),
+        duration: Duration(seconds: 2),
+      ));
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context).pop();
+      });
+    }
+
+  double x = 0, y = 0, z = 0;
+  String makeBid = "";
+
   @override
   void initState() {
   gyroscopeEvents.listen(
   (GyroscopeEvent event) {
-    print(event);
+     x = event.x;
+     y = event.y;
+     z = event.z;
+
+     if(x + y + z > 2.5){
+      makeBid = "S";
+     }
   },
   onError: (error) {
     // Logic to handle error
@@ -147,6 +173,7 @@ class _bidScreenState extends State<bidScreen> {
                               title: Text('Deseja Fazer Um Lance ?'),
                               content: Text('Para Realizar Um Lance: BALANCE O CELULAR!'),
                               actions: [
+                                *
                                 ElevatedButton(
                                   style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all(
