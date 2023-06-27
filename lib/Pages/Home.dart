@@ -377,7 +377,8 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const bidScreenPage()));},
+                            builder: (context) => const bidScreen()));
+                      },
                                 style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all(
                                         const Size(90, 50)),
